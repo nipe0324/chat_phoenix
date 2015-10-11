@@ -17,6 +17,8 @@ defmodule ChatPhoenix.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    # "GET /hello"にアクセスすると、HelloControllerのindexアクションが呼ばれる
+    get "/hello", HelloController, :index
   end
 
   # Other scopes may use custom stacks.
