@@ -48,6 +48,8 @@ defmodule ChatPhoenix.Web do
       use Phoenix.HTML
 
       import ChatPhoenix.Router.Helpers
+      # Sessionモジュールのcurrent_userとlogged_in?をWebのviewに追加
+      import ChatPhoenix.Session, only: [current_user: 1, logged_in?: 1]
     end
   end
 
