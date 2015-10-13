@@ -34,6 +34,8 @@ defmodule ChatPhoenix.Web do
       import Ecto.Query, only: [from: 1, from: 2]
 
       import ChatPhoenix.Router.Helpers
+      # Sessionモジュールのcurrent_userとlogged_in?をWebのcontrollerに追加
+      import ChatPhoenix.Session, only: [current_user: 1, logged_in?: 1]
     end
   end
 
@@ -56,6 +58,9 @@ defmodule ChatPhoenix.Web do
   def router do
     quote do
       use Phoenix.Router
+
+      # Sessionモジュールのcurrent_userとlogged_in?をWebのviewに追加
+      import ChatPhoenix.Session, only: [current_user: 1, logged_in?: 1]
     end
   end
 

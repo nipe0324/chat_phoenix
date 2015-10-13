@@ -7,6 +7,7 @@ defmodule ChatPhoenix.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :put_user_token
   end
 
   pipeline :api do
@@ -34,4 +35,13 @@ defmodule ChatPhoenix.Router do
   # scope "/api", ChatPhoenix do
   #   pipe_through :api
   # end
+
+  defp put_user_token(conn, _) do
+    if logged_in?(conn) do
+      token = Phoenix.Token.sign(conn, "user", current_user(conn).id)
+      assign(conn, :user_token, token)
+    else
+      conn
+    end
+  end
 end
