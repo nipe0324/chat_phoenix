@@ -1,3 +1,11 @@
+<div class="alert alert-success">
+  <p>サンプルアカウント</p>
+  <ul>
+    <li>bob@example.com / password</li>
+    <li>tom@example.com / password</li>
+  </ul>
+</div>
+
 <h1>ログイン</h1>
 
 <%= form_for @conn, session_path(@conn, :create), [name: :session], fn form -> %>
