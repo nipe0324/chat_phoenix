@@ -15,8 +15,13 @@ defmodule ChatPhoenix.RoomChannel do
 
   # イベント名"new:message"のIncoming eventsを処理する
   def handle_in("new:message", message, socket) do
+    # メッセージを作成
+    user = Repo.get(User, socket.assigns[:user_id]) |> Repo.preload(:messages)
+    message = Ecto.Model.build(user, :messages, content: message["body"])
+    Repo.insert!(message)
+
     # broadcat!は同じチャネルのすべてのサブスクライバーにメッセージを送る
-    broadcast! socket, "new:message", %{user: message["user"], body: message["body"]}
+    broadcast! socket, "new:message", %{user: user.email, body: message.content}
     {:noreply, socket}
   end
 end

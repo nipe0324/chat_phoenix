@@ -32,9 +32,13 @@ defmodule ChatPhoenix.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", ChatPhoenix do
-  #   pipe_through :api
-  # end
+  scope "/api", ChatPhoenix do
+    pipe_through :api
+
+    # メッセージ一覧取得(:index)、メッセージ作成(:create)
+    get  "/messages", MessageController, :index
+    post "/messages", MessageController, :create
+  end
 
   defp put_user_token(conn, _) do
     if logged_in?(conn) do

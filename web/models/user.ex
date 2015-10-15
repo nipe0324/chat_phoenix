@@ -7,6 +7,7 @@ defmodule ChatPhoenix.User do
     # passwordフィールドを追加。virtual: trueとすることでデータベースには保存されない
     field :password, :string, virtual: true
 
+    has_many :messages, ChatPhoenix.Message
     timestamps
   end
 
@@ -48,11 +49,10 @@ defmodule ChatPhoenix.User do
     |> repo.insert()
   end
 
-  @doc """
-  パスワードをハッシュ値にする
-  Comeoninという値をハッシュ化するライブラリを使用しています
-  defpはプライベートメソッド
-  """
+
+  # パスワードをハッシュ値にする
+  # Comeoninという値をハッシュ化するライブラリを使用しています
+  # defpはプライベートメソッド
   defp hashed_password(password) do
     Comeonin.Bcrypt.hashpwsalt(password)
   end

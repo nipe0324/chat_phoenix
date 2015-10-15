@@ -58,9 +58,22 @@ class MySocket {
     this.channel.on("new:message", message => this._renderMessage(message) )
   }
 
+  // メッセージを取得
+  all() {
+    $.ajax({
+      url: "/api/messages"
+    }).done((data) => {
+      console.log(data)
+      data.messages.forEach((message) => this._renderMessage(message))
+    }).fail((data) => {
+      alert("エラーが発生しました")
+      console.log(data)
+    })
+  }
+
   _renderMessage(message) {
-    var user = this._sanitize(message.user || "New User")
-    var body = this._sanitize(message.body)
+    let user = this._sanitize(message.user || "New User")
+    let body = this._sanitize(message.body)
 
     this.$messagesContainer.append(`<p><b>[${user}]</b>: ${body}</p>`)
   }
@@ -70,12 +83,19 @@ class MySocket {
   }
 }
 
+
 $(
   () => {
-    var my_socket = new MySocket()
-    // app.html.eexでセットしたトークンを使ってソケットに接続
-    my_socket.connectSocket("/socket", window.userToken)
-    my_socket.connectChannel("rooms:lobby")
+    if (window.userToken) {
+      // ソケット=>チャネルに接続
+      let my_socket = new MySocket()
+      // app.html.eexでセットしたトークンを使ってソケットに接続
+      my_socket.connectSocket("/socket", window.userToken)
+      my_socket.connectChannel("rooms:lobby")
+
+      // メッセージを取得
+      my_socket.all()
+    }
   }
 )
 
